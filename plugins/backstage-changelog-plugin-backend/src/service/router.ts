@@ -1,0 +1,75 @@
+import { UrlReader, errorHandler, TokenManager, PluginEndpointDiscovery } from '@backstage/backend-common';
+import { CatalogClient } from '@backstage/catalog-client';
+import { NotFoundError } from '@backstage/errors';
+import express from 'express';
+import Router from 'express-promise-router';
+import { Logger } from 'winston';
+import { readChangelogFile } from '../lib/ChangelogReader';
+import {
+  getEntitySourceLocation,
+  parseLocationRef,
+} from '@backstage/catalog-model';
+
+export interface RouterOptions {
+  logger: Logger;
+  reader: UrlReader;
+  tokenManager: TokenManager;
+  discovery: PluginEndpointDiscovery
+}
+
+export async function createRouter(
+  options: RouterOptions,
+): Promise<express.Router> {
+  const { logger, tokenManager, reader } = options;
+
+  const catalog = new CatalogClient({ discoveryApi: options.discovery });
+
+  const router = Router();
+  router.use(express.json());
+
+  router.get('/health', (_, response) => {
+    logger.info('PONG!');
+    response.json({ status: 'ok' });
+  });
+
+  router.get('/entity/:namespace/:kind/:name', async (req, res) => {
+    const token = await tokenManager.getToken();
+    const { namespace, kind, name } = req.params;
+    const entity = await catalog.getEntityByRef(
+      { namespace, kind, name },
+      token,
+    );
+    if (!entity) {
+      throw new NotFoundError(
+        `No ${kind} entity in ${namespace} named "${name}"`,
+      );
+    }
+    const changelogFilename = entity?.metadata.annotations?.['changelog-name'];
+    const changelogFileReference = entity?.metadata.annotations?.['changelog-file-ref'];
+
+    if (!changelogFileReference) {
+      const location = getEntitySourceLocation(entity);
+      if (changelogFilename) {
+        const result = await readChangelogFile(location.target + changelogFilename);
+        res.status(200).json({content: result})
+      } else {
+        const result = await readChangelogFile(location.target + 'CHANGELOG.md');
+        res.status(200).json({content: result})
+
+      }
+    } else {
+      const { type, target } = parseLocationRef(changelogFileReference);
+      if (type === 'url') {
+        const result = await reader.readUrl(target);
+        res.status(200).json({content: (await result.buffer()).toString('utf8')})
+      }
+      if (type === 'file') {
+        const result = await readChangelogFile(target);
+        res.status(200).json({content: result})
+      }
+    }
+  });
+
+  router.use(errorHandler());
+  return router;
+}
