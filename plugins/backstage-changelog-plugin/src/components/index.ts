@@ -15,8 +15,3 @@
  */
 
 export { ChangelogCard } from './ChangelogCard';
-// export type { AboutCardProps } from './AboutCard';
-// export { ChangeLogContent } from './ChangeLogContent';
-// export type { AboutContentProps } from './AboutContent';
-// export { AboutField } from './AboutField';
-// export type { AboutFieldProps } from './AboutField';
