@@ -1,5 +1,5 @@
 {
-  "name": "@rsc-labs/backstage-plugin-changelog",
+  "name": "@rsc-labs/backstage-changelog-plugin",
   "version": "0.1.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
