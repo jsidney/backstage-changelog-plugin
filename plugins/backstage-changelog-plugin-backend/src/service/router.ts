@@ -20,7 +20,7 @@ import { NotFoundError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
 import { Logger } from 'winston';
-import { readChangelogFile } from '../lib/ChangelogReader';
+import { readChangelogFile } from '../lib/changelogReader';
 import {
   getEntitySourceLocation,
   parseLocationRef,
@@ -46,6 +46,48 @@ export async function createRouter(
   router.get('/health', (_, response) => {
     logger.info('PONG!');
     response.json({ status: 'ok' });
+  });
+
+  router.get('/v2/entity/:namespace/:kind/:name', async (req, res) => {
+    const token = await tokenManager.getToken();
+    const { namespace, kind, name } = req.params;
+    const entity = await catalog.getEntityByRef(
+      { namespace, kind, name },
+      token,
+    );
+    if (!entity) {
+      throw new NotFoundError(
+        `No ${kind} entity in ${namespace} named "${name}"`,
+      );
+    }
+    const changelogFilename = entity?.metadata.annotations?.['changelog-name'];
+    const changelogFileReference = entity?.metadata.annotations?.['changelog-file-ref'];
+
+    let result: string | undefined;
+
+    if (!changelogFileReference) {
+      const location = getEntitySourceLocation(entity);
+      if (changelogFilename) {
+        result = await readChangelogFile(location.target + changelogFilename);
+      } else {
+        result = await readChangelogFile(location.target + 'CHANGELOG.md');
+
+      }
+    } else {
+      const { type, target } = parseLocationRef(changelogFileReference);
+      if (type === 'url') {
+        const urlResult = await reader.readUrl(target);
+        result = (await urlResult.buffer()).toString('utf8');
+      }
+      if (type === 'file') {
+        result = await readChangelogFile(target);
+      }
+    }
+    if (result) {
+      
+    } else {
+      res.status(404).json();
+    }
   });
 
   router.get('/entity/:namespace/:kind/:name', async (req, res) => {

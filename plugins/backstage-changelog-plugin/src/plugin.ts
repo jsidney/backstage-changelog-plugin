@@ -51,3 +51,14 @@ export const EntityChangelogCard = backstagePluginChangelogPlugin.provide(
     mountPoint: rootRouteRef,
   }),
 );
+
+export const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
+  createRoutableExtension({
+    name: 'EntityChangelogContent',
+    component: () =>
+      import('./components').then(
+        m => m.EntityChangelogContent
+      ),
+    mountPoint: rootRouteRef,
+  }),
+);

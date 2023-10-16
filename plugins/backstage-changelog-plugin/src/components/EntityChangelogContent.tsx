@@ -20,12 +20,12 @@ import { LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ChangelogProps } from '../util/types';
 import { defaultParser } from '../util';
-import { ChangelogSmallTable } from './ChangelogSmallTable';
 import { useApi } from '@backstage/core-plugin-api';
 import { changelogApiRef } from '../api';
 import { Alert } from '@material-ui/lab';
+import { ChangelogFullTable } from './ChangelogFullTable';
 
-export const ChangelogCardContent = ({ parser} : {parser?: any}) => {
+export const EntityChangelogContent = ({ parser} : {parser?: any}) => {
 
     const changelogApi = useApi(changelogApiRef);
 
@@ -44,7 +44,7 @@ export const ChangelogCardContent = ({ parser} : {parser?: any}) => {
     if (value) {
       const changelogInfos: ChangelogProps[] = parser ? parser(value) : defaultParser(value)
       return (
-        <ChangelogSmallTable changelogInfos={changelogInfos}/>
+        <ChangelogFullTable changelogInfos={changelogInfos}/>
       );
     }
     return <></>

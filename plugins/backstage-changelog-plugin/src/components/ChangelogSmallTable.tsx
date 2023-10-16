@@ -63,11 +63,7 @@ const SeeChangesButton = ({contentMd} : {contentMd: string}) => {
   };
   
   const dialogContent = () => {
-    return (
-      <>
-        <MarkdownContent content={contentMd}/>
-      </>
-    );
+    return <MarkdownContent content={contentMd}/>;
   };
   
   return (
@@ -88,7 +84,7 @@ const SeeChangesButton = ({contentMd} : {contentMd: string}) => {
 };
 
 
-export const ChangelogTable = ({changelogInfos} : {changelogInfos: ChangelogProps[]}) => {
+export const ChangelogSmallTable = ({changelogInfos} : {changelogInfos: ChangelogProps[]}) => {
     const columns: TableColumn[] = [
       {
         title: 'Version',
@@ -99,10 +95,15 @@ export const ChangelogTable = ({changelogInfos} : {changelogInfos: ChangelogProp
       },
       {
         title: 'Actions',
-        // TODO: Find by actions: https://github.com/mbrn/material-table/issues/67#issuecomment-466505392
         render: (changelogInfo: any) => (
           <ChangelogActionsCounters changelogActions={changelogInfo.actions}/>
-        )
+        ),
+        customFilterAndSearch: (filter: string, rowData: any, _) => {
+          if (rowData.actions.length) {
+            return (rowData.actions.find((action: { name: string; }) => action.name.toLowerCase().includes(filter.toLowerCase())) !== undefined);
+          }
+          return false;
+        },
       },
       {
         title: 'Changes',

@@ -42,7 +42,6 @@ export function defaultParser(content: string) : ChangelogProps[] {
 
     const changelogParsed = splittedLines.reduce((resultArray: ChangelogProps[], item: string) => {
       if (item.startsWith('## ')) {
-
         if (action && actionContent && versionContent) {
           resultArray[changelogIndex].actions.push(
             {
@@ -109,13 +108,17 @@ export function defaultParser(content: string) : ChangelogProps[] {
       }
       if (item.startsWith('-')) {
         actionCounter++;
+        if (actionContent) {
+          actionContent += (item + '\n')
+        } else {
+          actionContent = item + '\n';
+        }
       }
-      if (actionContent) {
-        actionContent += (item + '\n')
-      } else actionContent = item + '\n';
       if (versionContent) {
         versionContent += (item + '\n')
-      } else versionContent = item + '\n';
+      } else {
+        versionContent = item + '\n';
+      }
 
       return resultArray;
     }, [])

@@ -58,6 +58,7 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityChangelogCard } from '@rsc-labs/backstage-changelog-plugin';
+import { EntityChangelogContent } from '@rsc-labs/backstage-changelog-plugin/src/plugin';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -185,6 +186,10 @@ const websiteEntityPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
+    </EntityLayout.Route>
+
+    <EntityLayout.Route path="/changelog" title="Changelog">
+      <EntityChangelogContent/>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">

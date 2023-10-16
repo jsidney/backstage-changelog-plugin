@@ -15,3 +15,4 @@
  */
 
 export { ChangelogCard } from './ChangelogCard';
+export { EntityChangelogContent } from './EntityChangelogContent';
