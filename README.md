@@ -97,7 +97,7 @@ Every field matches corresponding information in ChangelogCard or ChangelogConte
 Install:
 ```bash
 cd packages/backend
-yarn add @rsc-labs/backstage-changelog-plugin
+yarn add @rsc-labs/backstage-changelog-plugin-backend
 ```
 
 Create a file `packages/backend/src/plugins/changelog.ts`:

@@ -25,7 +25,7 @@ Frontend plugin installation can be found here: [Frontend plugin](https://github
 Install:
 ```bash
 cd packages/backend
-yarn add @rsc-labs/backstage-changelog-plugin
+yarn add @rsc-labs/backstage-changelog-plugin-backend
 ```
 
 Create a file `packages/backend/src/plugins/changelog.ts`:
