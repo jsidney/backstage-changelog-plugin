@@ -1,13 +1,111 @@
-# backstage-plugin-changelog
+# @rsc-labs/changelog-plugin
 
-Welcome to the backstage-plugin-changelog plugin!
+Backstage Changelog Plugin is configurable and customizable plugin for viewing a changelog.
+You can write your own parser or use default one, which follows [Keep the changelog](https://keepachangelog.com/) notation.
 
-_This plugin was created through the Backstage CLI_
+### What is Changelog, why and who needs it?
+Description from [Keep the changelog](https://keepachangelog.com/).
 
-## Getting started
+A changelog is a file which contains a curated, chronologically ordered list of notable changes for each version of a project.
+It is being created to make it easier for users and contributors to see precisely what notable changes have been made between each release (or version) of the project.
+People need changelog. Whether consumers or developers, the end users of software are human beings who care about what's in the software. When the software changes, people want to know why and how.
 
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to [/backstage-plugin-changelog](http://localhost:3000/backstage-plugin-changelog).
+# Getting started
 
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
-It is only meant for local development, and the setup for it can be found inside the [/dev](./dev) directory.
+If you haven't already, check out the [Backstage docs](https://backstage.io/docs/getting-started/) and create a Backstage application with
+```
+npx @backstage/create-app
+```
+
+Then, you will need to install and configure the changelog plugins for the frontend and the backend.
+Backend plugin installation can be found here: [Backend plugin](https://github.com/RSC-Labs/backstage-changelog-plugin/tree/main/plugins/backstage-changelog-plugin-backend)
+
+## Frontend plugin
+
+Install:
+```bash
+cd packages/app
+yarn add @rsc-labs/backstage-changelog-plugin
+```
+
+You have two options how you can use Changelog functionality.
+
+### Card in Overview page:
+
+Add the card to `packages/app/src/components/catalog/EntityPage.tsx`:
+```jsx
+// import:
+import { EntityChangelogCard } from '@rsc-labs/backstage-changelog-plugin';
+
+// use it in entity view
+const overviewContent = (
+  <Grid container
+  ...
+    <Grid item md={6} xs={12}>
+      <EntityChangelogCard />
+    </Grid>
+  </Grid>
+)
+```
+
+<img src='./../../docs/changelog_entity_card.png' alt='Changelog card screenshot'>
+
+### Table in separated tab
+
+Add content to `packages/app/src/components/catalog/EntityPage.tsx`:
+```jsx
+// import:
+import { EntityChangelogContent } from '@rsc-labs/backstage-changelog-plugin';
+
+const serviceEntityPage = (
+  <EntityLayout
+  ...
+    <EntityLayout.Route path="/changelog" title="Changelog">
+      <EntityChangelogContent/>
+    </EntityLayout.Route>
+  </Grid>
+)
+```
+
+<img src='./../../docs/changelog_entity_content.png' alt='Changelog content screenshot'>
+
+### Frontend configuration
+
+We have created parser, which shall be able to parse English version of [Keep the changelog](https://keepachangelog.com/).
+If you have different notation in your organization, you can define your own parser and pass it to the plugin.
+Parser shall take `string` as argument and shall produce `ChangelogProps` output which follows:
+
+```jsx
+export type ChangelogAction = {
+    name: string,
+    counter: number,
+    content: string,
+    icon?: any
+}
+
+export type ChangelogProps = {
+    versionNumber: string,
+    actions: ChangelogAction[],
+    versionContent: string | undefined
+}
+```
+
+Every field matches corresponding information in ChangelogCard or ChangelogContent.
+
+## TODO
+
+[ ] Unit tests
+
+[ ] Move logic from frontend to backend
+
+## Contribution
+
+Contributions are welcome and they are greatly appreciated!
+
+## License
+
+Licensed under the Mozilla Public License, Version 2.0: https://www.mozilla.org/en-US/MPL/2.0/
+
+---
+
+© 2023 RSC https://rsoftcon.com/
