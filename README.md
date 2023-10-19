@@ -157,6 +157,11 @@ Plugin uses following logic:
 
 Both "file" and "url" options are supported.
 
+## TODO
+
+[ ] Unit tests
+[ ] Move logic from frontend to backend
+
 ## Contribution
 
 Contributions are welcome and they are greatly appreciated!
