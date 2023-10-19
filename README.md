@@ -160,6 +160,7 @@ Both "file" and "url" options are supported.
 ## TODO
 
 [ ] Unit tests
+
 [ ] Move logic from frontend to backend
 
 ## Contribution
