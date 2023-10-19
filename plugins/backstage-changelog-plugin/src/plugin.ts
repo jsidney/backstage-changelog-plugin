@@ -57,7 +57,7 @@ export const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
     name: 'EntityChangelogContent',
     component: () =>
       import('./components').then(
-        m => m.EntityChangelogContent
+        m => m.ChangelogContent
       ),
     mountPoint: rootRouteRef,
   }),

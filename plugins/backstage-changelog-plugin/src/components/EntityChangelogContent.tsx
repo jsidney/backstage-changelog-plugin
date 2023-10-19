@@ -25,7 +25,7 @@ import { changelogApiRef } from '../api';
 import { Alert } from '@material-ui/lab';
 import { ChangelogFullTable } from './ChangelogFullTable';
 
-export const EntityChangelogContent = ({ parser} : {parser?: any}) => {
+export const ChangelogContent = ({ parser} : {parser?: any}) => {
 
     const changelogApi = useApi(changelogApiRef);
 

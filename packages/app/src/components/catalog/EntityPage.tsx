@@ -58,7 +58,7 @@ import {
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { EntityChangelogCard } from '@rsc-labs/backstage-changelog-plugin';
-import { EntityChangelogContent } from '@rsc-labs/backstage-changelog-plugin/src/plugin';
+import { EntityChangelogContent } from '@rsc-labs/backstage-changelog-plugin';
 
 const techdocsContent = (
   <EntityTechdocsContent>

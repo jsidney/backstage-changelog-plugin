@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-export { ChangelogCard } from './ChangelogCard';
-export { EntityChangelogContent } from './EntityChangelogContent';
+export { ChangelogCard } from './EntityChangelogCard';
+export { ChangelogContent } from './EntityChangelogContent';

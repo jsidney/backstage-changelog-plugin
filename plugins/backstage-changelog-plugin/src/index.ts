@@ -15,3 +15,4 @@
  */
 
 export { EntityChangelogCard } from './plugin';
+export { EntityChangelogContent} from './plugin';
