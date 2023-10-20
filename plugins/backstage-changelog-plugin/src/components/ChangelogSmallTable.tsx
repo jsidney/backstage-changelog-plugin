@@ -16,10 +16,10 @@
 
 import React, { useState } from 'react';
 import {
-Button,
-Dialog,
-DialogContent,
-Grid,
+  Button,
+  Dialog,
+  DialogContent,
+  Grid,
 } from '@material-ui/core';
 import { Table, TableColumn } from '@backstage/core-components';
 import { MarkdownContent } from '@backstage/core-components';

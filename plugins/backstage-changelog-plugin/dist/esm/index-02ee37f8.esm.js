@@ -4,7 +4,7 @@ import { Button, Dialog, DialogContent, Grid, LinearProgress } from '@material-u
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { StatusOK, StatusRunning, StatusPending, StatusError, StatusWarning, Table, MarkdownContent } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
-import { c as changelogApiRef } from './index-33eb0045.esm.js';
+import { c as changelogApiRef } from './index-4bcc248b.esm.js';
 import { Alert } from '@material-ui/lab';
 import 'react-router-dom';
 import '@backstage/catalog-model';
@@ -168,7 +168,7 @@ const ChangelogSmallTable = ({ changelogInfos }) => {
   );
 };
 
-const ChangelogCardContent = ({ parser }) => {
+const ChangelogCard = (props) => {
   const changelogApi = useApi(changelogApiRef);
   const { entity } = useEntity();
   const { value, loading, error } = useAsync(async () => {
@@ -181,14 +181,10 @@ const ChangelogCardContent = ({ parser }) => {
     return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, "$", error);
   }
   if (value) {
-    const changelogInfos = parser ? parser(value) : defaultParser(value);
+    const changelogInfos = props.parser ? props.parser(value) : defaultParser(value);
     return /* @__PURE__ */ React.createElement(ChangelogSmallTable, { changelogInfos });
   }
   return /* @__PURE__ */ React.createElement(React.Fragment, null);
-};
-
-const ChangelogCard = (props) => {
-  return /* @__PURE__ */ React.createElement(ChangelogCardContent, { parser: props.parser });
 };
 
 const generateActionColumns = (changelogInfos) => {
@@ -241,7 +237,7 @@ const ChangelogFullTable = ({ changelogInfos }) => {
   );
 };
 
-const ChangelogContent = ({ parser }) => {
+const ChangelogContent = (props) => {
   const changelogApi = useApi(changelogApiRef);
   const { entity } = useEntity();
   const { value, loading, error } = useAsync(async () => {
@@ -254,11 +250,11 @@ const ChangelogContent = ({ parser }) => {
     return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, "$", error);
   }
   if (value) {
-    const changelogInfos = parser ? parser(value) : defaultParser(value);
+    const changelogInfos = props.parser ? props.parser(value) : defaultParser(value);
     return /* @__PURE__ */ React.createElement(ChangelogFullTable, { changelogInfos });
   }
   return /* @__PURE__ */ React.createElement(React.Fragment, null);
 };
 
 export { ChangelogCard, ChangelogContent };
-//# sourceMappingURL=index-ade22ce9.esm.js.map
+//# sourceMappingURL=index-02ee37f8.esm.js.map

@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-import { createApiFactory, createPlugin, createRoutableExtension, discoveryApiRef, fetchApiRef } from '@backstage/core-plugin-api';
+import { createApiFactory, createComponentExtension, createPlugin, discoveryApiRef, fetchApiRef } from '@backstage/core-plugin-api';
 import { changelogApiRef } from './api';
 
 import { rootRouteRef } from './routes';
 import { ChangelogClient } from './api/ChangelogClient';
 
+/** @public */
 export const backstagePluginChangelogPlugin = createPlugin({
   id: 'changelog',
   apis: [
@@ -41,24 +42,24 @@ export const backstagePluginChangelogPlugin = createPlugin({
   },
 });
 
+/** @public */
 export const EntityChangelogCard = backstagePluginChangelogPlugin.provide(
-  createRoutableExtension({
+  createComponentExtension({
     name: 'EntityChangelogCard',
-    component: () =>
-      import('./components').then(
-        m => m.ChangelogCard
-      ),
-    mountPoint: rootRouteRef,
+    component: {
+      lazy: () =>
+        import('./components').then(m => m.ChangelogCard),
+    },
   }),
 );
 
+/** @public */
 export const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
-  createRoutableExtension({
+  createComponentExtension({
     name: 'EntityChangelogContent',
-    component: () =>
-      import('./components').then(
-        m => m.ChangelogContent
-      ),
-    mountPoint: rootRouteRef,
+    component: {
+      lazy: () =>
+        import('./components').then(m => m.ChangelogContent),
+    },
   }),
 );

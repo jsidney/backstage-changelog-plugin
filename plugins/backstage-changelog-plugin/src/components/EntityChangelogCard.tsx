@@ -15,18 +15,37 @@
  */
 
 import React from 'react';
-import { ChangelogCardContent } from './ChangelogCardContent';
-import { ChangelogProps } from '../util/types';
+import useAsync from 'react-use/lib/useAsync';
+import { LinearProgress } from '@material-ui/core';
+import { useEntity } from '@backstage/plugin-catalog-react';
+import { ChangelogCardProps, ChangelogProps } from '../util/types';
+import { defaultParser } from '../util';
+import { useApi } from '@backstage/core-plugin-api';
+import { changelogApiRef } from '../api';
+import { Alert } from '@material-ui/lab';
+import { ChangelogSmallTable } from './ChangelogSmallTable';
   
-/**
- * Props for {@link EntityChangelogCard}.
- *
- * @public
- */
-export interface ChangelogCardProps {
-  parser?(content: string) : ChangelogProps[]
-}
-
 export const ChangelogCard = (props: ChangelogCardProps) => {
-  return <ChangelogCardContent parser={props.parser}></ChangelogCardContent>
+    
+  const changelogApi = useApi(changelogApiRef);
+
+    const { entity } = useEntity();
+    const { value, loading, error } = useAsync(async () => {
+        return changelogApi.readChangelog(entity)
+    })
+
+    if (loading) {
+      return <LinearProgress/>
+    }
+    if (error) {
+      return <Alert severity='error'>${error}</Alert>
+    }
+
+    if (value) {
+      const changelogInfos: ChangelogProps[] = props.parser ? props.parser(value) : defaultParser(value)
+      return (
+        <ChangelogSmallTable changelogInfos={changelogInfos}/>
+      );
+    }
+    return <></>
 }

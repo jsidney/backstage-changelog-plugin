@@ -18,14 +18,14 @@ import React from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import { LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { ChangelogProps } from '../util/types';
+import { ChangelogCardProps, ChangelogProps } from '../util/types';
 import { defaultParser } from '../util';
 import { useApi } from '@backstage/core-plugin-api';
 import { changelogApiRef } from '../api';
 import { Alert } from '@material-ui/lab';
 import { ChangelogFullTable } from './ChangelogFullTable';
 
-export const ChangelogContent = ({ parser} : {parser?: any}) => {
+export const ChangelogContent = (props: ChangelogCardProps) => {
 
     const changelogApi = useApi(changelogApiRef);
 
@@ -42,7 +42,7 @@ export const ChangelogContent = ({ parser} : {parser?: any}) => {
     }
 
     if (value) {
-      const changelogInfos: ChangelogProps[] = parser ? parser(value) : defaultParser(value)
+      const changelogInfos: ChangelogProps[] = props.parser ? props.parser(value) : defaultParser(value)
       return (
         <ChangelogFullTable changelogInfos={changelogInfos}/>
       );

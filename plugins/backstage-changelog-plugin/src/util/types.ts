@@ -26,3 +26,13 @@ export type ChangelogProps = {
     actions: ChangelogAction[],
     versionContent: string | undefined
 }
+
+/**
+ * Props for {@link EntityChangelogCard}.
+ *
+ * @public
+ */
+export interface ChangelogCardProps {
+    parser?(content: string) : ChangelogProps[]
+}
+  

@@ -12,7 +12,6 @@ type ChangelogProps = {
     actions: ChangelogAction[];
     versionContent: string | undefined;
 };
-
 /**
  * Props for {@link EntityChangelogCard}.
  *
@@ -22,6 +21,9 @@ interface ChangelogCardProps {
     parser?(content: string): ChangelogProps[];
 }
 
+/** @public */
 declare const EntityChangelogCard: (props: ChangelogCardProps) => react.JSX.Element;
+/** @public */
+declare const EntityChangelogContent: (props: ChangelogCardProps) => react.JSX.Element;
 
-export { EntityChangelogCard };
+export { EntityChangelogCard, EntityChangelogContent };

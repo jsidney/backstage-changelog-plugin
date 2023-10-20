@@ -1,4 +1,4 @@
-import { createApiRef, createRouteRef, createPlugin, createApiFactory, discoveryApiRef, fetchApiRef, createRoutableExtension } from '@backstage/core-plugin-api';
+import { createApiRef, createRouteRef, createPlugin, createApiFactory, discoveryApiRef, fetchApiRef, createComponentExtension } from '@backstage/core-plugin-api';
 import { generatePath } from 'react-router-dom';
 import { DEFAULT_NAMESPACE } from '@backstage/catalog-model';
 import { ResponseError } from '@backstage/errors';
@@ -65,23 +65,21 @@ const backstagePluginChangelogPlugin = createPlugin({
   }
 });
 const EntityChangelogCard = backstagePluginChangelogPlugin.provide(
-  createRoutableExtension({
+  createComponentExtension({
     name: "EntityChangelogCard",
-    component: () => import('./index-ade22ce9.esm.js').then(
-      (m) => m.ChangelogCard
-    ),
-    mountPoint: rootRouteRef
+    component: {
+      lazy: () => import('./index-02ee37f8.esm.js').then((m) => m.ChangelogCard)
+    }
   })
 );
 const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
-  createRoutableExtension({
+  createComponentExtension({
     name: "EntityChangelogContent",
-    component: () => import('./index-ade22ce9.esm.js').then(
-      (m) => m.ChangelogContent
-    ),
-    mountPoint: rootRouteRef
+    component: {
+      lazy: () => import('./index-02ee37f8.esm.js').then((m) => m.ChangelogContent)
+    }
   })
 );
 
-export { EntityChangelogCard as E, EntityChangelogContent as a, backstagePluginChangelogPlugin as b, changelogApiRef as c };
-//# sourceMappingURL=index-33eb0045.esm.js.map
+export { EntityChangelogContent as E, EntityChangelogCard as a, changelogApiRef as c };
+//# sourceMappingURL=index-4bcc248b.esm.js.map
