@@ -14,5 +14,4 @@
  * limitations under the License.
  */
 
-export { EntityChangelogCard } from './plugin';
-export { EntityChangelogContent} from './plugin';
+export * from './plugin';

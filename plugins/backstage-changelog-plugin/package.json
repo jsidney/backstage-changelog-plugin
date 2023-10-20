@@ -1,6 +1,6 @@
 {
   "name": "@rsc-labs/backstage-changelog-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "MPL-2.0",
@@ -30,9 +30,6 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "4.0.0-alpha.61",
     "@types/fs-extra": "^9.0.1",
-    "@types/markdown-it": "13.0.2",
-    "react-paginate": "8.2.0",
-    "react-markdown": "9.0.0",
     "react-use": "^17.2.4"
   },
   "peerDependencies": {
