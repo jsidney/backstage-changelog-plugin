@@ -48,7 +48,7 @@ const overviewContent = (
 )
 ```
 
-<img src='./../../docs/changelog_entity_card.png' alt='Changelog card screenshot'>
+<img src='https://raw.githubusercontent.com/RSC-Labs/backstage-changelog-plugin/main/docs/changelog_entity_card.png' alt='Changelog card screenshot'>
 
 ### Table in separated tab
 
@@ -67,7 +67,7 @@ const serviceEntityPage = (
 )
 ```
 
-<img src='./../../docs/changelog_entity_content.png' alt='Changelog content screenshot'>
+<img src='https://raw.githubusercontent.com/RSC-Labs/backstage-changelog-plugin/main/docs/changelog_entity_content.png' alt='Changelog content screenshot'>
 
 ### Frontend configuration
 
