@@ -1,5 +1,7 @@
 # @rsc-labs/changelog-plugin
 
+<img src='./docs/plugin_icon.png' width='100' height='150' alt='Changelog card screenshot'>
+
 Backstage Changelog Plugin is configurable and customizable plugin for viewing a changelog.
 You can write your own parser or use default one, which follows [Keep the changelog](https://keepachangelog.com/) notation.
 
