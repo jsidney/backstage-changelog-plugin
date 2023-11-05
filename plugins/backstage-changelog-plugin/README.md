@@ -73,7 +73,10 @@ const serviceEntityPage = (
 
 We have created parser, which shall be able to parse English version of [Keep the changelog](https://keepachangelog.com/).
 If you have different notation in your organization, you can define your own parser and pass it to the plugin.
-Parser shall take `string` as argument and shall produce `ChangelogProps` output which follows:
+
+#### How to create my own parser?
+
+Parser shall take `string` as argument and shall produce array of `ChangelogProps` output which follows:
 
 ```jsx
 export type ChangelogAction = {
@@ -91,6 +94,52 @@ export type ChangelogProps = {
 ```
 
 Every field matches corresponding information in ChangelogCard or ChangelogContent.
+
+Let's assume that your content follows "Keep the changelog" format, so your CHANGELOG looks like this:
+```md
+# Changelog
+
+## [1.1.1] - 2023-03-05
+
+### Added
+
+- Polish translation
+
+### Removed
+
+- Foreign translation
+
+```
+
+Properly mapping to ChangelogProps format is:
+```
+versionNumber = "[1.1.1] - 2023-03-05"
+actions = [
+  {
+    name: "Added",
+    counter: 1 // because there is only one change - Polish translation added
+    content: "- Polish translation",
+    icon: <some react component, for instance from MUI icons>
+  },
+  {
+    name: "Removed",
+    counter: 1 // because there is only one change - Foreign translation removed
+    content: "- Foreign translation",
+    icon: <some react component, for instance from MUI icons>
+  }
+]
+versionContent = "
+### Added
+
+- Polish translation
+
+### Removed
+
+- Foreign translation
+"
+```
+
+Please remember that you need to return array of ChangelogProps because single ChangelogProps is related to one version (e.g. [1.1.1] - 2023-03-05) and its content.
 
 ## TODO
 

@@ -74,25 +74,8 @@ const serviceEntityPage = (
 
 We have created parser, which shall be able to parse English version of [Keep the changelog](https://keepachangelog.com/).
 If you have different notation in your organization, you can define your own parser and pass it to the plugin.
-Parser shall take `string` as argument and shall produce `ChangelogProps` output which follows:
 
-```jsx
-export type ChangelogAction = {
-    name: string,
-    counter: number,
-    content: string,
-    icon?: any
-}
-
-export type ChangelogProps = {
-    versionNumber: string,
-    actions: ChangelogAction[],
-    versionContent: string | undefined
-}
-```
-
-Every field matches corresponding information in ChangelogCard or ChangelogContent.
-
+For details see: [How to create own parser?](/plugins/backstage-changelog-plugin/README.md#how-to-create-my-own-parser)
 
 ## Backend plugin
 
