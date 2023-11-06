@@ -16,7 +16,7 @@
 
 import React from 'react';
 import useAsync from 'react-use/lib/useAsync';
-import { LinearProgress, Typography } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ChangelogCardProps, ChangelogProps } from '../util/types';
 import { defaultParser } from '../util';
