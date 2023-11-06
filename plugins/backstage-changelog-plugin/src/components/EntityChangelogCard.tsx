@@ -38,7 +38,7 @@ export const ChangelogCard = (props: ChangelogCardProps) => {
       return <LinearProgress/>
     }
     if (error) {
-      return <Alert severity='error'>${error}</Alert>
+      return <Alert severity='error'>{JSON.stringify(error)}</Alert>
     }
 
     if (value) {

@@ -15,7 +15,7 @@
  */
 
 import { UrlReader, errorHandler, TokenManager, PluginEndpointDiscovery } from '@backstage/backend-common';
-import { CatalogClient } from '@backstage/catalog-client';
+import { CatalogClient, CatalogApi } from '@backstage/catalog-client';
 import { NotFoundError } from '@backstage/errors';
 import express from 'express';
 import Router from 'express-promise-router';
@@ -30,15 +30,17 @@ export interface RouterOptions {
   logger: Logger;
   reader: UrlReader;
   tokenManager: TokenManager;
-  discovery: PluginEndpointDiscovery
+  discovery: PluginEndpointDiscovery,
+  catalogApi?: CatalogApi   
 }
 
 export async function createRouter(
   options: RouterOptions,
 ): Promise<express.Router> {
-  const { logger, tokenManager, reader } = options;
+  const { logger, tokenManager, reader, discovery } = options;
 
-  const catalog = new CatalogClient({ discoveryApi: options.discovery });
+  const catalogApi =
+    options.catalogApi ?? new CatalogClient({ discoveryApi: discovery });
 
   const router = Router();
   router.use(express.json());
@@ -48,52 +50,10 @@ export async function createRouter(
     response.json({ status: 'ok' });
   });
 
-  router.get('/v2/entity/:namespace/:kind/:name', async (req, res) => {
-    const token = await tokenManager.getToken();
-    const { namespace, kind, name } = req.params;
-    const entity = await catalog.getEntityByRef(
-      { namespace, kind, name },
-      token,
-    );
-    if (!entity) {
-      throw new NotFoundError(
-        `No ${kind} entity in ${namespace} named "${name}"`,
-      );
-    }
-    const changelogFilename = entity?.metadata.annotations?.['changelog-name'];
-    const changelogFileReference = entity?.metadata.annotations?.['changelog-file-ref'];
-
-    let result: string | undefined;
-
-    if (!changelogFileReference) {
-      const location = getEntitySourceLocation(entity);
-      if (changelogFilename) {
-        result = await readChangelogFile(location.target + changelogFilename);
-      } else {
-        result = await readChangelogFile(location.target + 'CHANGELOG.md');
-
-      }
-    } else {
-      const { type, target } = parseLocationRef(changelogFileReference);
-      if (type === 'url') {
-        const urlResult = await reader.readUrl(target);
-        result = (await urlResult.buffer()).toString('utf8');
-      }
-      if (type === 'file') {
-        result = await readChangelogFile(target);
-      }
-    }
-    if (result) {
-      
-    } else {
-      res.status(404).json();
-    }
-  });
-
   router.get('/entity/:namespace/:kind/:name', async (req, res) => {
     const token = await tokenManager.getToken();
     const { namespace, kind, name } = req.params;
-    const entity = await catalog.getEntityByRef(
+    const entity = await catalogApi.getEntityByRef(
       { namespace, kind, name },
       token,
     );
@@ -113,7 +73,6 @@ export async function createRouter(
       } else {
         const result = await readChangelogFile(location.target + 'CHANGELOG.md');
         res.status(200).json({content: result})
-
       }
     } else {
       const { type, target } = parseLocationRef(changelogFileReference);

@@ -16,7 +16,7 @@
 
 import React from 'react';
 import useAsync from 'react-use/lib/useAsync';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ChangelogCardProps, ChangelogProps } from '../util/types';
 import { defaultParser } from '../util';
@@ -38,7 +38,7 @@ export const ChangelogContent = (props: ChangelogCardProps) => {
       return <LinearProgress/>
     }
     if (error) {
-      return <Alert severity='error'>${error}</Alert>
+      return <Alert severity='error'>{JSON.stringify(error)}</Alert>
     }
 
     if (value) {
