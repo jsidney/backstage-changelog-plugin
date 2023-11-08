@@ -15,5 +15,5 @@
  */
 
 export { EntityChangelogContent, EntityChangelogCard } from './plugin';
-export { isChangelogAnnotationConfigurationOk, getInfoAboutChangelogAnnotationConfiguration, CHANGELOG_ANNOTATION_REF, CHANGELOG_ANNOTATION_NAME } from './util';
-export type { EntityChangelogProps, ChangelogAction, ChangelogProps } from './util';
+export { isChangelogAnnotationConfigurationOk, getInfoAboutChangelogAnnotationConfiguration, CHANGELOG_ANNOTATION_REF, CHANGELOG_ANNOTATION_NAME } from './util/constants';
+export type { EntityChangelogProps, ChangelogAction, ChangelogProps } from './util/types';

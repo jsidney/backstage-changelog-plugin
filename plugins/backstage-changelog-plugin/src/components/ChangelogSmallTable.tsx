@@ -27,15 +27,17 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { ChangelogAction, ChangelogProps } from '../util/types';
 
 const ActionCounter = ({actionName, counter, Icon} : {actionName: string, counter: number, Icon?: OverridableComponent<any>}) => {
-  return <Grid container alignItems='center'>
-    {Icon && <Grid item>
-      <Icon/>
+  return (
+    <Grid container alignItems='center'>
+      {Icon && <Grid item>
+        <Icon/>
+      </Grid>
+      }
+      <Grid item>
+        {counter} {actionName}
+      </Grid>
     </Grid>
-    }
-    <Grid item>
-      {counter} {actionName}
-    </Grid>
-  </Grid>
+  );
 }
 
 const ChangelogActionsCounters = ({changelogActions} : {changelogActions: ChangelogAction[]}) => {
@@ -43,7 +45,7 @@ const ChangelogActionsCounters = ({changelogActions} : {changelogActions: Change
     <>
     {changelogActions.map(changelogAction => {
         if (changelogAction.counter) {
-          return <ActionCounter actionName={changelogAction.name} counter={changelogAction.counter} key={changelogAction.name} Icon={changelogAction.icon}></ActionCounter>
+          return <ActionCounter actionName={changelogAction.name} counter={changelogAction.counter} key={changelogAction.name} Icon={changelogAction.icon}/>
         }
         return null;
     })}

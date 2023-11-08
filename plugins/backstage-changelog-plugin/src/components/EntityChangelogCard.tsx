@@ -27,31 +27,39 @@ import { ChangelogSmallTable } from './ChangelogSmallTable';
 import { isChangelogAnnotationConfigurationOk } from '../util/constants';
 import { ChangelogAnnotationsEmptyState } from './ChangelogAnnotationsEmptyState';
 
+const ChangelogCardWithTable = (props: EntityChangelogProps) => {
+
+  const changelogApi = useApi(changelogApiRef);
+
+  const { entity } = useEntity();
+
+  const { value, loading, error } = useAsync(async () => {
+    return changelogApi.readChangelog(entity)
+  })
+
+  if (loading) {
+    return <LinearProgress/>
+  }
+  if (error) {
+    return <Alert severity='error'>{JSON.stringify(error)}</Alert>
+  }
+
+  if (value) {
+    const changelogInfos: ChangelogProps[] = props.parser ? props.parser(value) : defaultParser(value)
+    return (
+      <ChangelogSmallTable changelogInfos={changelogInfos}/>
+    );
+  }
+  return <></>
+}
+
 export const ChangelogCard = (props: EntityChangelogProps) => {
     
-    const changelogApi = useApi(changelogApiRef);
-
     const { entity } = useEntity();
 
     if (!isChangelogAnnotationConfigurationOk(entity)) {
-      return ChangelogAnnotationsEmptyState();
+      return <ChangelogAnnotationsEmptyState/>;
     }
-    const { value, loading, error } = useAsync(async () => {
-        return changelogApi.readChangelog(entity)
-    })
-
-    if (loading) {
-      return <LinearProgress/>
-    }
-    if (error) {
-      return <Alert severity='error'>{JSON.stringify(error)}</Alert>
-    }
-
-    if (value) {
-      const changelogInfos: ChangelogProps[] = props.parser ? props.parser(value) : defaultParser(value)
-      return (
-        <ChangelogSmallTable changelogInfos={changelogInfos}/>
-      );
-    }
-    return <></>
+    return <ChangelogCardWithTable parser={props.parser}/>
 }
+

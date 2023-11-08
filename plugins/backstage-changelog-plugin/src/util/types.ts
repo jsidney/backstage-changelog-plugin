@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/** @public */
 export type ChangelogAction = {
     name: string,
     counter: number,
@@ -21,6 +22,7 @@ export type ChangelogAction = {
     icon?: any
 }
 
+/** @public */
 export type ChangelogProps = {
     versionNumber: string,
     actions: ChangelogAction[],

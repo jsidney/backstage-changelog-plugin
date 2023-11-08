@@ -73,29 +73,27 @@ export async function createRouter(
       } else if (entitySourceLocation) {
         const { type, target } = parseLocationRef(entitySourceLocation);
         if (type === 'url') {
-          const result = await reader.readUrl(target + 'CHANGELOG.md');
+          const result = await reader.readUrl(`${target}CHANGELOG.md`);
           return res.status(200).json({content: (await result.buffer()).toString('utf8')})
         }
         if (type === 'file') {
-          const result = await readChangelogFile(target +'CHANGELOG.md');
+          const result = await readChangelogFile(`${target}CHANGELOG.md`);
           return res.status(200).json({content: result})
         }
         return res.status(500).json()
-      } else {
-        return res.status(404).json();
-      }
-    } else {
-      const { type, target } = parseLocationRef(changelogFileReference);
-      if (type === 'url') {
-        const result = await reader.readUrl(target);
-        return res.status(200).json({content: (await result.buffer()).toString('utf8')})
-      }
-      if (type === 'file') {
-        const result = await readChangelogFile(target);
-        return res.status(200).json({content: result})
-      }
-      return res.status(500).json()
+      } 
+      return res.status(404).json();
     }
+    const { type, target } = parseLocationRef(changelogFileReference);
+    if (type === 'url') {
+      const result = await reader.readUrl(target);
+      return res.status(200).json({content: (await result.buffer()).toString('utf8')})
+    }
+    if (type === 'file') {
+      const result = await readChangelogFile(target);
+      return res.status(200).json({content: result})
+    }
+    return res.status(500).json()
   });
 
   router.use(errorHandler());

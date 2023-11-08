@@ -29,7 +29,7 @@ enum EChangelogAction {
 
 // Default parser follows https://keepachangelog.com/
 export function defaultParser(content: string) : ChangelogProps[] {
-    let splittedLines = content.split(/\r?\n/);
+    const splittedLines = content.split(/\r?\n/);
 
     let changelogIndex = -1;
 
@@ -83,41 +83,41 @@ export function defaultParser(content: string) : ChangelogProps[] {
 
         if (item.includes(`### ${EChangelogAction.Added}`)) {
           action = EChangelogAction.Added;
-          ActionIcon = () =>  <StatusOK></StatusOK>
+          ActionIcon = () =>  <StatusOK/>
         }
         if (item.includes(`### ${EChangelogAction.Fixed}`)) {
           action = EChangelogAction.Fixed;
-          ActionIcon = () =>  <StatusRunning></StatusRunning>
+          ActionIcon = () =>  <StatusRunning/>
         }
         if (item.includes(`### ${EChangelogAction.Changed}`)) {
           action = EChangelogAction.Changed;
-          ActionIcon = () =>  <StatusPending></StatusPending>
+          ActionIcon = () =>  <StatusPending/>
         }
         if (item.includes(`### ${EChangelogAction.Removed}`)) {
           action = EChangelogAction.Removed;
-          ActionIcon = () =>  <StatusError></StatusError>
+          ActionIcon = () =>  <StatusError/>
         }
         if (item.includes(`### ${EChangelogAction.Deprecated}`)) {
           action = EChangelogAction.Deprecated;
-          ActionIcon = () =>  <StatusWarning></StatusWarning>
+          ActionIcon = () =>  <StatusWarning/>
         }
         if (item.includes(`### ${EChangelogAction.Security}`)) {
           action = EChangelogAction.Deprecated;
-          ActionIcon = () =>  <StatusPending></StatusPending>
+          ActionIcon = () =>  <StatusPending/>
         }
       }
       if (item.startsWith('-')) {
         actionCounter++;
         if (actionContent) {
-          actionContent += (item + '\n')
+          actionContent += `${item}'\n'`;
         } else {
-          actionContent = item + '\n';
+          actionContent = `${item}'\n'`;
         }
       }
       if (versionContent) {
-        versionContent += (item + '\n')
+        versionContent += `${item}'\n'`;
       } else {
-        versionContent = item + '\n';
+        versionContent = `${item}'\n'`;
       }
 
       return resultArray;

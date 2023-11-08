@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import { Button, Dialog, DialogContent, Grid, Typography, Box, LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { c as changelogApiRef, i as isChangelogAnnotationConfigurationOk } from './index-3a694fa1.esm.js';
+import { C as CHANGELOG_ANNOTATION_NAME, a as CHANGELOG_ANNOTATION_REF, c as changelogApiRef, i as isChangelogAnnotationConfigurationOk } from './index-37b62e94.esm.js';
 import { StatusOK, StatusRunning, StatusPending, StatusError, StatusWarning, Table, MarkdownContent, EmptyState, CodeSnippet, LinkButton } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 import { Alert } from '@material-ui/lab';
+import { ANNOTATION_SOURCE_LOCATION } from '@backstage/catalog-model';
 import 'react-router-dom';
-import '@backstage/catalog-model';
 import '@backstage/errors';
 
 function defaultParser(content) {
@@ -170,16 +170,16 @@ const ChangelogSmallTable = ({ changelogInfos }) => {
 
 const missingSourceLocation = `
   annotations:
-    backstage.io/source-location: "file:/path-to-directory/"
+    ${ANNOTATION_SOURCE_LOCATION}: "file:/path-to-directory/"
 `;
 const missingSourceLocationAndName = `
   annotations:
-    backstage.io/source-location: "file:/path-to-directory/"
-    changelog-name: "CHANGELOG.md"
+    ${ANNOTATION_SOURCE_LOCATION}: "file:/path-to-directory/"
+    ${CHANGELOG_ANNOTATION_NAME}: "CHANGELOG.md"
 `;
 const missingChangelogFileRef = `
   annotations:
-    changelog-file-ref: "url:https://github.com/RSC-Labs/backstage-changelog-plugin/tree/main/examples/CHANGELOG.md"
+    ${CHANGELOG_ANNOTATION_REF}: "url:https://github.com/RSC-Labs/backstage-changelog-plugin/tree/main/examples/CHANGELOG.md"
 `;
 const ChangelogAnnotationsEmptyState = () => {
   return /* @__PURE__ */ React.createElement(
@@ -312,4 +312,4 @@ const ChangelogContent = (props) => {
 };
 
 export { ChangelogCard, ChangelogContent };
-//# sourceMappingURL=index-fa6b99e5.esm.js.map
+//# sourceMappingURL=index-c99c80e0.esm.js.map

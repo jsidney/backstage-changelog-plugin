@@ -18,6 +18,7 @@ import { Entity, ANNOTATION_SOURCE_LOCATION } from '@backstage/catalog-model';
 
 /** @public */
 export const CHANGELOG_ANNOTATION_REF = 'changelog-file-ref';
+/** @public */
 export const CHANGELOG_ANNOTATION_NAME = 'changelog-name';
 
 /** @public */

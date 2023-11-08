@@ -76,6 +76,7 @@ async function createRouter(options) {
         const result = await readChangelogFile(target);
         return res.status(200).json({ content: result });
       }
+      return res.status(500).json();
     }
   });
   router.use(backendCommon.errorHandler());

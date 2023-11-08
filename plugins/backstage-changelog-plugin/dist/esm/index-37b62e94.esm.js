@@ -2,8 +2,6 @@ import { createApiRef, createRouteRef, createPlugin, createApiFactory, discovery
 import { generatePath } from 'react-router-dom';
 import { DEFAULT_NAMESPACE, ANNOTATION_SOURCE_LOCATION } from '@backstage/catalog-model';
 import { ResponseError } from '@backstage/errors';
-import 'react';
-import '@backstage/core-components';
 
 const changelogApiRef = createApiRef({
   id: "plugin.changelog.client"
@@ -70,7 +68,7 @@ const EntityChangelogCard = backstagePluginChangelogPlugin.provide(
   createComponentExtension({
     name: "EntityChangelogCard",
     component: {
-      lazy: () => import('./index-fa6b99e5.esm.js').then((m) => m.ChangelogCard)
+      lazy: () => import('./index-c99c80e0.esm.js').then((m) => m.ChangelogCard)
     }
   })
 );
@@ -78,7 +76,7 @@ const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
   createComponentExtension({
     name: "EntityChangelogContent",
     component: {
-      lazy: () => import('./index-fa6b99e5.esm.js').then((m) => m.ChangelogContent)
+      lazy: () => import('./index-c99c80e0.esm.js').then((m) => m.ChangelogContent)
     }
   })
 );
@@ -109,5 +107,5 @@ const getInfoAboutChangelogAnnotationConfiguration = (entity) => {
   return "Annotations are ok";
 };
 
-export { CHANGELOG_ANNOTATION_REF as C, EntityChangelogContent as E, EntityChangelogCard as a, CHANGELOG_ANNOTATION_NAME as b, changelogApiRef as c, getInfoAboutChangelogAnnotationConfiguration as g, isChangelogAnnotationConfigurationOk as i };
-//# sourceMappingURL=index-3a694fa1.esm.js.map
+export { CHANGELOG_ANNOTATION_NAME as C, EntityChangelogContent as E, CHANGELOG_ANNOTATION_REF as a, EntityChangelogCard as b, changelogApiRef as c, getInfoAboutChangelogAnnotationConfiguration as g, isChangelogAnnotationConfigurationOk as i };
+//# sourceMappingURL=index-37b62e94.esm.js.map

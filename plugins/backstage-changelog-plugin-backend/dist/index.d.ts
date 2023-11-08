@@ -1,4 +1,5 @@
 import { UrlReader, TokenManager, PluginEndpointDiscovery } from '@backstage/backend-common';
+import { CatalogApi } from '@backstage/catalog-client';
 import express from 'express';
 import { Logger } from 'winston';
 import * as _backstage_backend_plugin_api from '@backstage/backend-plugin-api';
@@ -8,6 +9,7 @@ interface RouterOptions {
     reader: UrlReader;
     tokenManager: TokenManager;
     discovery: PluginEndpointDiscovery;
+    catalogApi?: CatalogApi;
 }
 declare function createRouter(options: RouterOptions): Promise<express.Router>;
 
