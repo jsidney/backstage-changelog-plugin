@@ -14,15 +14,36 @@
  * limitations under the License.
  */
 
-import { Entity } from '@backstage/catalog-model';
+import { Entity, ANNOTATION_SOURCE_LOCATION } from '@backstage/catalog-model';
 
 /** @public */
-export const CHANGELOG_ANNOTATION = 'changelog-ref';
+export const CHANGELOG_ANNOTATION_REF = 'changelog-file-ref';
+export const CHANGELOG_ANNOTATION_NAME = 'changelog-name';
 
 /** @public */
-export const isChangelogAnnotationAvailable = (entity: Entity) =>
-  Boolean(entity.metadata.annotations?.[CHANGELOG_ANNOTATION]);
+export const isChangelogAnnotationConfigurationOk = (entity: Entity) : boolean => {
+  if (Boolean(entity.metadata.annotations?.[CHANGELOG_ANNOTATION_REF])) {
+    return true;
+  }
+  if (Boolean(entity.metadata.annotations?.[CHANGELOG_ANNOTATION_NAME]) && Boolean(entity.metadata.annotations?.[ANNOTATION_SOURCE_LOCATION])) {
+    return true;
+  }
+  if (Boolean(entity.metadata.annotations?.[ANNOTATION_SOURCE_LOCATION])) {
+    return true;
+  }
+  return false;
+}
 
-export const getChangelogAnnotation = (entity: Entity) => {
-  return entity?.metadata.annotations?.[CHANGELOG_ANNOTATION] ?? '';
-};
+/** @public */
+export const getInfoAboutChangelogAnnotationConfiguration = (entity: Entity) : string => {
+
+  if (Boolean(entity.metadata.annotations?.[CHANGELOG_ANNOTATION_NAME]) && !Boolean(entity.metadata.annotations?.[ANNOTATION_SOURCE_LOCATION])) {
+    return `Annotation "${CHANGELOG_ANNOTATION_NAME}" needs to be set together with "${ANNOTATION_SOURCE_LOCATION}" annotation`;
+  }
+
+  if (!Boolean(entity.metadata.annotations?.[CHANGELOG_ANNOTATION_REF]) && !Boolean(entity.metadata.annotations?.[ANNOTATION_SOURCE_LOCATION])) {
+    return `Annotations are missing - "${CHANGELOG_ANNOTATION_REF}" or "${ANNOTATION_SOURCE_LOCATION}" or "${CHANGELOG_ANNOTATION_NAME}" with "${ANNOTATION_SOURCE_LOCATION}"`;
+  }
+  return 'Annotations are ok';
+}
+

@@ -18,18 +18,24 @@ import React from 'react';
 import useAsync from 'react-use/lib/useAsync';
 import { LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { ChangelogCardProps, ChangelogProps } from '../util/types';
+import { EntityChangelogProps, ChangelogProps } from '../util/types';
 import { defaultParser } from '../util';
 import { useApi } from '@backstage/core-plugin-api';
 import { changelogApiRef } from '../api';
 import { Alert } from '@material-ui/lab';
 import { ChangelogSmallTable } from './ChangelogSmallTable';
-  
-export const ChangelogCard = (props: ChangelogCardProps) => {
+import { isChangelogAnnotationConfigurationOk } from '../util/constants';
+import { ChangelogAnnotationsEmptyState } from './ChangelogAnnotationsEmptyState';
+
+export const ChangelogCard = (props: EntityChangelogProps) => {
     
-  const changelogApi = useApi(changelogApiRef);
+    const changelogApi = useApi(changelogApiRef);
 
     const { entity } = useEntity();
+
+    if (!isChangelogAnnotationConfigurationOk(entity)) {
+      return ChangelogAnnotationsEmptyState();
+    }
     const { value, loading, error } = useAsync(async () => {
         return changelogApi.readChangelog(entity)
     })

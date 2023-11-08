@@ -13,7 +13,7 @@ kind: Component
 metadata:
   name: example-website
   annotations:
-    backstage.io/source-location: "file:/home/ubuntu/rsc/contributions/backstage/backstage-changelog/examples/"
+    backstage.io/source-location: "file:/home/ubuntu/rsc/contributions/backstage-changelog-plugin/examples/"
     changelog-file-ref: "url:https://github.com/RSC-Labs/backstage-changelog-plugin/tree/main/examples/CHANGELOG.md"
     changelog-name: "CHANGELOG.md"
 

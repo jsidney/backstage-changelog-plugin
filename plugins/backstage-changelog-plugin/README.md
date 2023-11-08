@@ -76,7 +76,20 @@ If you have different notation in your organization, you can define your own par
 
 #### How to create my own parser?
 
-Parser shall take `string` as argument and shall produce array of `ChangelogProps` output which follows:
+Parser is represented by following type:
+
+```jsx
+/**
+ * Props for {@link EntityChangelogCard}.
+ * Props for {@link EntityChangelogContent}
+ * @public
+ */
+export interface EntityChangelogProps {
+    parser?(content: string) : ChangelogProps[]
+}
+  
+```
+It shall take `string` as argument and shall produce array of `ChangelogProps` output which follows:
 
 ```jsx
 export type ChangelogAction = {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import useAsync from 'react-use/lib/useAsync';
-import { Button, Dialog, DialogContent, Grid, LinearProgress } from '@material-ui/core';
+import { Button, Dialog, DialogContent, Grid, Typography, Box, LinearProgress } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { StatusOK, StatusRunning, StatusPending, StatusError, StatusWarning, Table, MarkdownContent } from '@backstage/core-components';
+import { c as changelogApiRef, i as isChangelogAnnotationConfigurationOk } from './index-3a694fa1.esm.js';
+import { StatusOK, StatusRunning, StatusPending, StatusError, StatusWarning, Table, MarkdownContent, EmptyState, CodeSnippet, LinkButton } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
-import { c as changelogApiRef } from './index-4bcc248b.esm.js';
 import { Alert } from '@material-ui/lab';
 import 'react-router-dom';
 import '@backstage/catalog-model';
@@ -168,9 +168,61 @@ const ChangelogSmallTable = ({ changelogInfos }) => {
   );
 };
 
+const missingSourceLocation = `
+  annotations:
+    backstage.io/source-location: "file:/path-to-directory/"
+`;
+const missingSourceLocationAndName = `
+  annotations:
+    backstage.io/source-location: "file:/path-to-directory/"
+    changelog-name: "CHANGELOG.md"
+`;
+const missingChangelogFileRef = `
+  annotations:
+    changelog-file-ref: "url:https://github.com/RSC-Labs/backstage-changelog-plugin/tree/main/examples/CHANGELOG.md"
+`;
+const ChangelogAnnotationsEmptyState = () => {
+  return /* @__PURE__ */ React.createElement(
+    EmptyState,
+    {
+      missing: "field",
+      title: "Changelog plugin",
+      description: "Missing Annotations",
+      action: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Typography, { variant: "body1" }, "You need to properly configure your annotations. One of below configuration is needed:"), /* @__PURE__ */ React.createElement(Box, null, /* @__PURE__ */ React.createElement(
+        CodeSnippet,
+        {
+          text: missingSourceLocation,
+          language: "yaml",
+          showLineNumbers: true,
+          customStyle: { background: "inherit", fontSize: "115%" }
+        }
+      ), /* @__PURE__ */ React.createElement(
+        CodeSnippet,
+        {
+          text: missingSourceLocationAndName,
+          language: "yaml",
+          showLineNumbers: true,
+          customStyle: { background: "inherit", fontSize: "115%" }
+        }
+      ), /* @__PURE__ */ React.createElement(
+        CodeSnippet,
+        {
+          text: missingChangelogFileRef,
+          language: "yaml",
+          showLineNumbers: true,
+          customStyle: { background: "inherit", fontSize: "115%" }
+        }
+      )), /* @__PURE__ */ React.createElement(LinkButton, { color: "primary", to: "https://github.com/RSC-Labs/backstage-changelog-plugin#backend-plugin" }, "Read more"))
+    }
+  );
+};
+
 const ChangelogCard = (props) => {
   const changelogApi = useApi(changelogApiRef);
   const { entity } = useEntity();
+  if (!isChangelogAnnotationConfigurationOk(entity)) {
+    return ChangelogAnnotationsEmptyState();
+  }
   const { value, loading, error } = useAsync(async () => {
     return changelogApi.readChangelog(entity);
   });
@@ -178,7 +230,7 @@ const ChangelogCard = (props) => {
     return /* @__PURE__ */ React.createElement(LinearProgress, null);
   }
   if (error) {
-    return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, "$", error);
+    return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, JSON.stringify(error));
   }
   if (value) {
     const changelogInfos = props.parser ? props.parser(value) : defaultParser(value);
@@ -240,6 +292,9 @@ const ChangelogFullTable = ({ changelogInfos }) => {
 const ChangelogContent = (props) => {
   const changelogApi = useApi(changelogApiRef);
   const { entity } = useEntity();
+  if (!isChangelogAnnotationConfigurationOk(entity)) {
+    return ChangelogAnnotationsEmptyState();
+  }
   const { value, loading, error } = useAsync(async () => {
     return changelogApi.readChangelog(entity);
   });
@@ -247,7 +302,7 @@ const ChangelogContent = (props) => {
     return /* @__PURE__ */ React.createElement(LinearProgress, null);
   }
   if (error) {
-    return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, "$", error);
+    return /* @__PURE__ */ React.createElement(Alert, { severity: "error" }, JSON.stringify(error));
   }
   if (value) {
     const changelogInfos = props.parser ? props.parser(value) : defaultParser(value);
@@ -257,4 +312,4 @@ const ChangelogContent = (props) => {
 };
 
 export { ChangelogCard, ChangelogContent };
-//# sourceMappingURL=index-02ee37f8.esm.js.map
+//# sourceMappingURL=index-fa6b99e5.esm.js.map

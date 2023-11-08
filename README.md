@@ -70,6 +70,19 @@ const serviceEntityPage = (
 
 <img src='./docs/changelog_entity_content.png' alt='Changelog content screenshot'>
 
+### Check if annotations are ok
+
+You can also check before if annotations are configured properly and depends on the result add EntityChangelogContent or EntityChangelogCard.
+Two methods are exported:
+```jsx
+export const isChangelogAnnotationConfigurationOk = (entity: Entity) : boolean
+```
+It checks if configuration of annotations is ok.
+```jsx
+export const getInfoAboutChangelogAnnotationConfiguration = (entity: Entity)
+```
+It return information what is wrong with configuration of annotations.
+
 ### Frontend configuration
 
 We have created parser, which shall be able to parse English version of [Keep the changelog](https://keepachangelog.com/).

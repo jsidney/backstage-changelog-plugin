@@ -29,10 +29,10 @@ export type ChangelogProps = {
 
 /**
  * Props for {@link EntityChangelogCard}.
- *
+ * Props for {@link EntityChangelogContent}
  * @public
  */
-export interface ChangelogCardProps {
+export interface EntityChangelogProps {
     parser?(content: string) : ChangelogProps[]
 }
   

@@ -1,7 +1,9 @@
 import { createApiRef, createRouteRef, createPlugin, createApiFactory, discoveryApiRef, fetchApiRef, createComponentExtension } from '@backstage/core-plugin-api';
 import { generatePath } from 'react-router-dom';
-import { DEFAULT_NAMESPACE } from '@backstage/catalog-model';
+import { DEFAULT_NAMESPACE, ANNOTATION_SOURCE_LOCATION } from '@backstage/catalog-model';
 import { ResponseError } from '@backstage/errors';
+import 'react';
+import '@backstage/core-components';
 
 const changelogApiRef = createApiRef({
   id: "plugin.changelog.client"
@@ -68,7 +70,7 @@ const EntityChangelogCard = backstagePluginChangelogPlugin.provide(
   createComponentExtension({
     name: "EntityChangelogCard",
     component: {
-      lazy: () => import('./index-02ee37f8.esm.js').then((m) => m.ChangelogCard)
+      lazy: () => import('./index-fa6b99e5.esm.js').then((m) => m.ChangelogCard)
     }
   })
 );
@@ -76,10 +78,36 @@ const EntityChangelogContent = backstagePluginChangelogPlugin.provide(
   createComponentExtension({
     name: "EntityChangelogContent",
     component: {
-      lazy: () => import('./index-02ee37f8.esm.js').then((m) => m.ChangelogContent)
+      lazy: () => import('./index-fa6b99e5.esm.js').then((m) => m.ChangelogContent)
     }
   })
 );
 
-export { EntityChangelogContent as E, EntityChangelogCard as a, changelogApiRef as c };
-//# sourceMappingURL=index-4bcc248b.esm.js.map
+const CHANGELOG_ANNOTATION_REF = "changelog-file-ref";
+const CHANGELOG_ANNOTATION_NAME = "changelog-name";
+const isChangelogAnnotationConfigurationOk = (entity) => {
+  var _a, _b, _c, _d;
+  if (Boolean((_a = entity.metadata.annotations) == null ? void 0 : _a[CHANGELOG_ANNOTATION_REF])) {
+    return true;
+  }
+  if (Boolean((_b = entity.metadata.annotations) == null ? void 0 : _b[CHANGELOG_ANNOTATION_NAME]) && Boolean((_c = entity.metadata.annotations) == null ? void 0 : _c[ANNOTATION_SOURCE_LOCATION])) {
+    return true;
+  }
+  if (Boolean((_d = entity.metadata.annotations) == null ? void 0 : _d[ANNOTATION_SOURCE_LOCATION])) {
+    return true;
+  }
+  return false;
+};
+const getInfoAboutChangelogAnnotationConfiguration = (entity) => {
+  var _a, _b, _c, _d;
+  if (Boolean((_a = entity.metadata.annotations) == null ? void 0 : _a[CHANGELOG_ANNOTATION_NAME]) && !Boolean((_b = entity.metadata.annotations) == null ? void 0 : _b[ANNOTATION_SOURCE_LOCATION])) {
+    return `Annotation "${CHANGELOG_ANNOTATION_NAME}" needs to be set together with "${ANNOTATION_SOURCE_LOCATION}" annotation`;
+  }
+  if (!Boolean((_c = entity.metadata.annotations) == null ? void 0 : _c[CHANGELOG_ANNOTATION_REF]) && !Boolean((_d = entity.metadata.annotations) == null ? void 0 : _d[ANNOTATION_SOURCE_LOCATION])) {
+    return `Annotations are missing - "${CHANGELOG_ANNOTATION_REF}" or "${ANNOTATION_SOURCE_LOCATION}" or "${CHANGELOG_ANNOTATION_NAME}" with "${ANNOTATION_SOURCE_LOCATION}"`;
+  }
+  return "Annotations are ok";
+};
+
+export { CHANGELOG_ANNOTATION_REF as C, EntityChangelogContent as E, EntityChangelogCard as a, CHANGELOG_ANNOTATION_NAME as b, changelogApiRef as c, getInfoAboutChangelogAnnotationConfiguration as g, isChangelogAnnotationConfigurationOk as i };
+//# sourceMappingURL=index-3a694fa1.esm.js.map
