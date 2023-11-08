@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { UrlReader, errorHandler, TokenManager, PluginEndpointDiscovery, resolveSafeChildPath } from '@backstage/backend-common';
+import { UrlReader, errorHandler, TokenManager, PluginEndpointDiscovery } from '@backstage/backend-common';
 import { CatalogClient, CatalogApi } from '@backstage/catalog-client';
 import { NotFoundError } from '@backstage/errors';
 import express from 'express';
@@ -94,6 +94,7 @@ export async function createRouter(
         const result = await readChangelogFile(target);
         return res.status(200).json({content: result})
       }
+      return res.status(500).json()
     }
   });
 
